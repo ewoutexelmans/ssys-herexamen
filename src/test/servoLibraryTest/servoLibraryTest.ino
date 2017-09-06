@@ -1,17 +1,19 @@
-#include <Servo.h> 
+#include <Servo.h>
 
 Servo myservo;
 
-void setup() 
-{ 
+void setup()
+{
   myservo.attach(9);
-} 
+}
 
 void loop() {
-    myservo.writeMicroseconds(1000);  // set servo to mid-point
-    delay(2000);
-     myservo.writeMicroseconds(1500);  // set servo to mid-point
-    delay(2000);
-     myservo.writeMicroseconds(2000);  // set servo to mid-point
-    delay(2000);
-} 
+  myservo.write(0); //clockwise rotation
+  delay(1365);      // time for 360° rotation
+  myservo.write(90);  // stop servo
+  delay(1200);
+  myservo.write(180); //counterclockwise rotation
+  delay(1365);
+  myservo.write(90);  // stop servo
+  delay(1200);
+}
