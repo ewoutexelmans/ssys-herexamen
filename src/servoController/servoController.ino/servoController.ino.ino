@@ -4,6 +4,7 @@
 #include <RF24.h>
 #include <nRF24L01.h>
 #include <printf.h>
+#include <stdlib.h>
 
 #define servoPin 9
 #define cePin 2
@@ -12,6 +13,7 @@
 RF24 radio(cePin, csPin);
 const uint64_t add1 = 0x0a0c0a0c0aLL;
 char msg[10];
+float recieved;
 
 
 
@@ -24,34 +26,43 @@ void setup()
   printf_begin();
   radio.openReadingPipe(1, add1);
   radio.startListening();
+
 }
 
 void loop() {
-  rotate(Angle());
+
+  if (radio.available()) {
+    radio.read(msg, sizeof(msg));
+    recieved = atof(msg);
+    rotate(Angle(recieved));
+  }
+
+
 }
 
-int Angle() {
-  float data = 0;
-  int angle = 0;
-  if (Serial.available() > 0) {
-    // read the incoming byte:
-    data = Serial.parseFloat();
-    if (data > 0) {
-      // say what you got:
-      Serial.print("rotate servo ");
-      Serial.print((int)data, DEC);
-      Serial.println("° clockwise.");
-      angle = round(data * 3.7917);
 
-    } else if (data < 0) {
-      Serial.print("rotate servo ");
-      Serial.print(abs((int)data), DEC);
-      Serial.println("° counterclockwise.");
-      angle = round(data * 3.7917);
-    } else {
-      Serial.println("No angle larger then 0° given.");
-    }
+
+int Angle(float _data) {
+
+  int angle = 0;
+  float data = _data;
+
+  if (data > 0) {
+    // say what you got:
+    Serial.print("rotate servo ");
+    Serial.print((int)data, DEC);
+    Serial.println("° clockwise.");
+    angle = round(data * 3.7917);
+
+  } else if (data < 0) {
+    Serial.print("rotate servo ");
+    Serial.print(abs((int)data), DEC);
+    Serial.println("° counterclockwise.");
+    angle = round(data * 3.7917);
+  } else {
+    Serial.println("No angle larger then 0° given.");
   }
+
   return angle;
 }
 
