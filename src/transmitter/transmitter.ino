@@ -6,7 +6,7 @@
 #define cePin 2
 #define csPin 3
 
-RF24 radio(cePin, csPin); //ce and cs pin
+RF24 radio(cePin, csPin); 
 const uint64_t add1 = 0x0a0c0a0c0aLL;
 char msg[10];
 
@@ -25,7 +25,6 @@ void loop() {
 }
 
 void serialEvent() {
-
   Serial.readBytesUntil('\n', msg, sizeof(msg));
   Serial.println(msg);
   radio.write(msg, sizeof(msg));

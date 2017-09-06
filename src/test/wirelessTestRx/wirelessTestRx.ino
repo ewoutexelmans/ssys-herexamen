@@ -5,7 +5,7 @@
 
 RF24 radio(2, 3); //ce and cs pin
 const uint64_t add1 = 0x0a0c0a0c0aLL;
-int msg[1];
+char msg[10];
 
 void setup() {
   Serial.begin(9600);
@@ -19,7 +19,7 @@ void loop() {
   // put your main code here, to run repeatedly:
 
   if (radio.available()) {
-    radio.read(&msg, sizeof(msg));
-    Serial.println(msg[0],DEC);
+    radio.read(msg, sizeof(msg));
+    Serial.println(msg);
   }
 }
