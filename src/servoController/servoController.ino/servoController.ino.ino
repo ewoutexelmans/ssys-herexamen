@@ -1,8 +1,17 @@
 #include <Servo.h>
 #include <math.h>
+#include <SPI.h>
+#include <RF24.h>
+#include <nRF24L01.h>
+#include <printf.h>
 
 #define servoPin 9
+#define cePin 2
+#define csPin 3
 
+RF24 radio(cePin, csPin);
+const uint64_t add1 = 0x0a0c0a0c0aLL;
+char msg[10];
 
 
 
@@ -11,7 +20,10 @@ Servo myservo;
 void setup()
 {
   Serial.begin(9600);
-  myservo.attach(servoPin);
+  myservo.attach(servoPin); radio.begin();
+  printf_begin();
+  radio.openReadingPipe(1, add1);
+  radio.startListening();
 }
 
 void loop() {
