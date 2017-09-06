@@ -21,14 +21,14 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  
+
 }
 
 void serialEvent() {
- 
+
   Serial.readBytesUntil('\n', msg, sizeof(msg));
   Serial.println(msg);
   radio.write(msg, sizeof(msg));
-   memset(msg, 0, sizeof(msg));
+  memset(msg, 0, sizeof(msg));
 }
 
