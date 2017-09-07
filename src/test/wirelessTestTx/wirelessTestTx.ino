@@ -3,6 +3,8 @@
 #include <nRF24L01.h>
 #include <printf.h>
 
+
+
 #define cePin 9
 #define csPin 10
 
@@ -21,14 +23,19 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  
+
 }
 
 void serialEvent() {
- 
+  bool rslt;
   Serial.readBytesUntil('\n', msg, sizeof(msg));
   Serial.println(msg);
-  radio.write(msg, sizeof(msg));
-   memset(msg, 0, sizeof(msg));
+  rslt = radio.write(msg, sizeof(msg));
+  if(rslt){
+    Serial.println("Acknowledge recieved");
+  }else{
+    Serial.println("Transmission failed");
+  }
+  memset(msg, 0, sizeof(msg));
 }
 

@@ -3,10 +3,11 @@
 #include <nRF24L01.h>
 #include <printf.h>
 
+
 #define cePin 9
 #define csPin 10
 
-RF24 radio(cePin, csPin); 
+RF24 radio(cePin, csPin);
 const uint64_t add1 = 0x0a0c0a0c0aLL;
 char msg[10];
 
@@ -17,6 +18,9 @@ void setup() {
   radio.openWritingPipe(add1);
   radio.printDetails();
 
+  Serial.println("Type a positive value to rotate clockwise");
+  Serial.println("Type a negative value to rotate counterclockwise");
+  Serial.println("(In degrees)");
 }
 
 void loop() {
@@ -25,9 +29,15 @@ void loop() {
 }
 
 void serialEvent() {
+  bool rslt;
   Serial.readBytesUntil('\n', msg, sizeof(msg));
   Serial.println(msg);
-  radio.write(msg, sizeof(msg));
+  rslt = radio.write(msg, sizeof(msg));
+  if (rslt) {
+    Serial.println("Acknowledge recieved");
+  } else {
+    Serial.println("Transmission failed");
+  }
   memset(msg, 0, sizeof(msg));
 }
 

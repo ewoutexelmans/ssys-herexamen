@@ -22,10 +22,12 @@ Servo myservo;
 void setup()
 {
   Serial.begin(9600);
-  myservo.attach(servoPin); radio.begin();
+  myservo.attach(servoPin); 
+  radio.begin();
   printf_begin();
   radio.openReadingPipe(1, add1);
   radio.startListening();
+  myservo.write(90);
 
 }
 
