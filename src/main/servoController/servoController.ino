@@ -6,9 +6,9 @@
 #include <printf.h>
 #include <stdlib.h>
 
-#define servoPin 9
-#define cePin 2
-#define csPin 3
+#define servoPin 2
+#define cePin 9
+#define csPin 10
 
 RF24 radio(cePin, csPin);
 const uint64_t add1 = 0x0a0c0a0c0aLL;
@@ -60,7 +60,7 @@ int Angle(float _data) {
     Serial.println("° counterclockwise.");
     angle = round(data * 3.7917);
   } else {
-    Serial.println("No angle larger then 0° given.");
+    Serial.println(data);
   }
 
   return angle;
